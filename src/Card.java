@@ -20,10 +20,10 @@ public class Card {
 
 	public enum Suit {
 
-		DIAMOND(0),
-		CLUB(1),
-		HEART(2),
-		SPADE(3);
+		DIAMOND(3),
+		CLUB(2),
+		HEART(1),
+		SPADE(0);
 
 		private int value;
 
@@ -79,9 +79,8 @@ public class Card {
 	private int computeCardValue() {
 		int suitValue = suit.getValue() * 13;
 		int cardNumberValue = cardNumber.getValue();
-		int offset = 1;
 
-		return suitValue + cardNumberValue + offset;
+		return suitValue + cardNumberValue;
 	}
 
 	public Suit getSuit() {

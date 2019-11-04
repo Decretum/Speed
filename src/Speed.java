@@ -127,7 +127,7 @@ public class Speed {
 
 	private Dimension getDimensionsOfDisplay() {
 		// todo maybe this can be dynamic based on OS, idk
-		return new Dimension(731, 679);
+		return new Dimension(731, 660);
 	}
 
 	private JMenuBar initializeMenu() {
@@ -429,7 +429,7 @@ public class Speed {
 		playersHandButton5.setIcon(playersHand.get(4).getFace());
 		playersDeckIcon.setIcon(playersDeck.peek().getBack());
 
-		start.setEnabled(true);
+		start.setEnabled(true); // todo this will npe for some reason.
 		timeLabel.setText("Time: 0 seconds");
 		playersCardsRemainingLabel.setText("Cards Left: 20"); // todo maybe these shouldnt have a hard coded number
 		opponentsCardsRemainingLabel.setText("Opponent's cards left: 20");
@@ -537,6 +537,72 @@ public class Speed {
 		playersCardsRemainingLabel.setText("Cards left: " + (playersDeck.getSize() + cardsInHand));
 	}
 
+	private void renderOpponentsHand() {
+		boolean changeMade = true;
+		boolean done = false;
+		Card temp;
+		int cardsInHand = 0;
+
+		while (changeMade) {
+			changeMade = false;
+			for (int x = opponentsHand.size() - 1; x >= 0; x--) {
+				if (opponentsHand.get(x) == null) {
+					done = true;
+
+					for (int y = x; y >= 0; y--) {
+						if (opponentsHand.get(y) != null) {
+							done = false;
+							break;
+						}
+					}
+
+					if (!done) {
+						for (int y = x; y > 0; y--) {
+							changeMade = true;
+							temp = opponentsHand.get(y);
+							opponentsHand.set(y, opponentsHand.get(y - 1));
+							opponentsHand.set(y - 1, temp);
+						}
+					}
+				}
+			}
+		}
+
+		if (opponentsHand.get(0) != null) {
+			opponentsHandLabel1.setIcon(opponentsHand.get(0).getBack());
+		} else {
+			opponentsHandLabel1.setIcon(new ImageIcon("green.png"));
+		}
+		if (opponentsHand.get(1) != null) {
+			opponentsHandLabel2.setIcon(opponentsHand.get(1).getBackSideStub());
+		} else {
+			opponentsHandLabel2.setIcon(new ImageIcon("green.png"));
+		}
+		if (opponentsHand.get(2) != null) {
+			opponentsHandLabel3.setIcon(opponentsHand.get(2).getBackSideStub());
+		} else {
+			opponentsHandLabel3.setIcon(new ImageIcon("green.png"));
+		}
+		if (opponentsHand.get(3) != null) {
+			opponentsHandLabel4.setIcon(opponentsHand.get(3).getBackSideStub());
+		} else {
+			opponentsHandLabel4.setIcon(new ImageIcon("green.png"));
+		}
+		if (opponentsHand.get(4) != null) {
+			opponentsHandLabel5.setIcon(opponentsHand.get(4).getBackSideStub());
+		} else {
+			opponentsHandLabel5.setIcon(new ImageIcon("green.png"));
+		}
+
+		for (Card card : opponentsHand) {
+			if (card != null) {
+				cardsInHand++;
+			}
+		}
+
+		opponentsCardsRemainingLabel.setText("Cards left: " + (opponentsDeck.getSize() + cardsInHand));
+	}
+
 	private void start() {
         start.setEnabled(false);
         leftIcon.setIcon(leftDeck.peek().getFace());
@@ -551,6 +617,49 @@ public class Speed {
             opponentPlayCard();
         });
         opponentsActionTimer.start();
+	}
+
+	private void opponentPlayCard() {
+		for (int x = 0; x < 5; x++) {
+			if (canPlay(opponentsHand.get(x))) {
+				System.out.println("Playing card " + (x + 1) + ", which is a " + opponentsHand.get(x).toString());
+
+				if (numbersAreAdjacent(opponentsHand.get(x).getCardNumber().getValue(), leftDeck.peek().getCardNumber().getValue())) {
+					System.out.println("Putting it in the left deck.");
+
+					leftDeck.addCard(opponentsHand.get(x));
+					leftIcon.setIcon(leftDeck.peek().getFace());
+
+					if (opponentsDeck.getSize() != 0) {
+						opponentsHand.set(x, opponentsDeck.drawCard());
+					} else {
+						opponentsHand.set(x, null);
+					}
+
+					renderOpponentsHand();
+					break; // so the opponent doesn't potentially play multiple cards per turn
+				} else if (numbersAreAdjacent(opponentsHand.get(x).getCardNumber().getValue(), rightDeck.peek().getCardNumber().getValue())) {
+					System.out.println("Putting it in the right deck.");
+
+					rightDeck.addCard(opponentsHand.get(x));
+					rightIcon.setIcon(rightDeck.peek().getFace());
+
+					if (opponentsDeck.getSize() != 0) {
+						opponentsHand.set(x, opponentsDeck.drawCard());
+					} else {
+						opponentsHand.set(x, null);
+					}
+				}
+			}
+		}
+
+		if (opponentsDeck.getSize() == 0) {
+			opponentsDeckIcon.setIcon(new ImageIcon("green.png"));
+		}
+
+		flip.setEnabled(noMovesPossible());
+
+		endGameIfWinnerExists();
 	}
 
 	private void flip() {
@@ -623,7 +732,15 @@ public class Speed {
 	}
 
 	private boolean numbersAreAdjacent(int x, int y) {
-		return (Math.abs((x % Card.CardNumber.KING.getValue()) - (y % Card.CardNumber.KING.getValue())) <= 1);
+		if (Math.abs(x - y) <= 1) {
+			return true;
+		}
+
+		if (x < y) {
+			return Math.abs(x + Card.CardNumber.KING.getValue() - y) <= 1;
+		} else {
+			return Math.abs(x - Card.CardNumber.KING.getValue() - y) <= 1;
+		}
 	}
 
 	private void endGameIfWinnerExists() {
@@ -657,7 +774,7 @@ public class Speed {
 		if (opponentWins) {
 			golbalTimer.stop();
 			opponentsActionTimer.stop();
-			JOptionPane.showMessageDialog(jFrame, "You win!");
+			JOptionPane.showMessageDialog(jFrame, "You lose!");
 			reset();
 		}
 	}
