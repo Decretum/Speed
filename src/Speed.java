@@ -1,7 +1,5 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -77,7 +75,6 @@ public class Speed {
 		initializeCardsForPlayers(startingDeck);
 
 		clock = 0;
-		start = null;
 	}
 
 	private void initializeEmptyStates() {
@@ -366,7 +363,6 @@ public class Speed {
 				null,
 				modes,
 				modes[0]
-
 		);
 		if (selection == 0) {
 			setGameToEasyMode();
@@ -405,8 +401,20 @@ public class Speed {
 		initializeData();
 		resetDisplay();
 
-		golbalTimer.stop();
-		opponentsActionTimer.stop();
+		if (golbalTimer != null) {
+			golbalTimer.stop();
+		}
+		golbalTimer = new Timer(1000, ae -> {
+			clock++;
+			timeLabel.setText("Time: " + clock + " seconds");
+		});
+
+		if (opponentsActionTimer != null) {
+			opponentsActionTimer.stop();
+		}
+		opponentsActionTimer = new Timer(opponentsSpeedMillis, ae -> {
+			opponentPlayCard();
+		});
 	}
 
 	private void resetDisplay() {
@@ -429,10 +437,25 @@ public class Speed {
 		playersHandButton5.setIcon(playersHand.get(4).getFace());
 		playersDeckIcon.setIcon(playersDeck.peek().getBack());
 
-		start.setEnabled(true); // todo this will npe for some reason.
+		start.setEnabled(true);
 		timeLabel.setText("Time: 0 seconds");
-		playersCardsRemainingLabel.setText("Cards Left: 20"); // todo maybe these shouldnt have a hard coded number
-		opponentsCardsRemainingLabel.setText("Opponent's cards left: 20");
+
+		int cardsInHand = 0;
+		for (Card card : playersHand) {
+			if (card != null) {
+				cardsInHand++;
+			}
+		}
+
+		playersCardsRemainingLabel.setText("Cards Left: " + (playersDeck.getSize() + cardsInHand));
+
+		int opponentsCardsInHand = 0;
+		for (Card card : opponentsHand) {
+			if (card != null) {
+				opponentsCardsInHand++;
+			}
+		}
+		opponentsCardsRemainingLabel.setText("AI's cards left: " + (opponentsDeck.getSize() + opponentsCardsInHand));
 	}
 
 	private void playCard(int index) {
@@ -545,11 +568,11 @@ public class Speed {
 
 		while (changeMade) {
 			changeMade = false;
-			for (int x = opponentsHand.size() - 1; x >= 0; x--) {
+			for (int x = 0; x < opponentsHand.size(); x++) {
 				if (opponentsHand.get(x) == null) {
 					done = true;
 
-					for (int y = x; y >= 0; y--) {
+					for (int y = x; y < opponentsHand.size(); y++) {
 						if (opponentsHand.get(y) != null) {
 							done = false;
 							break;
@@ -557,11 +580,11 @@ public class Speed {
 					}
 
 					if (!done) {
-						for (int y = x; y > 0; y--) {
+						for (int y = x; y < opponentsHand.size() - 1; y++) {
 							changeMade = true;
 							temp = opponentsHand.get(y);
-							opponentsHand.set(y, opponentsHand.get(y - 1));
-							opponentsHand.set(y - 1, temp);
+							opponentsHand.set(y, opponentsHand.get(y + 1));
+							opponentsHand.set(y + 1, temp);
 						}
 					}
 				}
@@ -600,7 +623,7 @@ public class Speed {
 			}
 		}
 
-		opponentsCardsRemainingLabel.setText("Cards left: " + (opponentsDeck.getSize() + cardsInHand));
+		opponentsCardsRemainingLabel.setText("AI's Cards left: " + (opponentsDeck.getSize() + cardsInHand));
 	}
 
 	private void start() {
@@ -664,7 +687,7 @@ public class Speed {
 
 	private void flip() {
 		if (leftExtraDeck.getSize() == 0 || rightExtraDeck.getSize() == 0) {
-			resupplyExtraDecks();
+			endGameOnDraw();
 		}
 
 		leftDeck.addCard(leftExtraDeck.drawCard());
@@ -687,14 +710,11 @@ public class Speed {
 		flip.setEnabled(noMovesPossible());
 	}
 
-	private void resupplyExtraDecks() {
-		int totalCardsFree = leftDeck.getSize() + rightDeck.getSize();
-		if (totalCardsFree <= 3) {// todo george why 3?
-			JOptionPane.showMessageDialog(jFrame, "Unwinnable game, gonna exit.");
-			System.exit(0);
-		} else {
-			// todo george I don't care right now
-		}
+	private void endGameOnDraw() {
+		golbalTimer.stop();
+		opponentsActionTimer.stop();
+		JOptionPane.showMessageDialog(jFrame, "Draw");
+		reset();
 	}
 
 	private boolean noMovesPossible() {
@@ -782,6 +802,5 @@ public class Speed {
 	public static void main(String[] args) {
 		SwingUtilities.invokeLater(Speed::new);
 	}
-
 
 }
