@@ -134,7 +134,7 @@ public class Speed {
 
 		JMenuItem instructions = new JMenuItem("Instructions");
 		instructions.addActionListener(ae -> {
-			JOptionPane.showMessageDialog(jFrame, "message");
+			JOptionPane.showMessageDialog(jFrame, "Click cards in your hand to play them. You can only play cards that are adjacent in value to the cards in the middle.");
 		});
 		helpMenu.add(instructions);
 
