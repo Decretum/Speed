@@ -24,6 +24,7 @@ public class Speed {
 	private Timer opponentsActionTimer;
 
 	private int clock;
+	private boolean isDialogOpen;
 
 	// All the items below are related to the layout of the board
 
@@ -709,8 +710,12 @@ public class Speed {
 	}
 
 	private void displayFlipPopUp() {
-		JOptionPane.showMessageDialog(jFrame, "No moves possible! Flipping cards.");
-		flip();
+		if (!isDialogOpen) {
+			isDialogOpen = true;
+			JOptionPane.showMessageDialog(jFrame, "No moves possible! Flipping cards.");
+			flip();
+			isDialogOpen = false;
+		}
 	}
 
 	private void endGameOnDraw() {
