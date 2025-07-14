@@ -706,22 +706,9 @@ public class Speed {
 		} else {
 			rightExtraIcon.setIcon(rightExtraDeck.peek().getBack());
 		}
-
-		if (!noMovesPossible()) {
-			playersHandButton1.setEnabled(true);
-			playersHandButton2.setEnabled(true);
-			playersHandButton3.setEnabled(true);
-			playersHandButton4.setEnabled(true);
-			playersHandButton5.setEnabled(true);
-		}
 	}
 
 	private void displayFlipPopUp() {
-		playersHandButton1.setEnabled(false);
-		playersHandButton2.setEnabled(false);
-		playersHandButton3.setEnabled(false);
-		playersHandButton4.setEnabled(false);
-		playersHandButton5.setEnabled(false);
 		JOptionPane.showMessageDialog(jFrame, "No moves possible! Flipping cards.");
 		flip();
 	}
