@@ -202,7 +202,7 @@ public class Speed {
 		opponentsDeckIcon.setBorder(BorderFactory.createLineBorder(boardColor, 10));
 		opponentsLeftPanel.add(opponentsDeckIcon);
 
-		JLabel greenPanel1 = new JLabel(new ImageIcon("green.png"));
+		JLabel greenPanel1 = new JLabel(new ImageIcon("assets/green.png"));
 		greenPanel1.setPreferredSize(new Dimension(150, 200));
 		opponentsLeftPanel.add(greenPanel1);
 
@@ -299,7 +299,7 @@ public class Speed {
 
 		JPanel playersRightPanel = new JPanel(new GridLayout(1, 2, 0, 0));
 
-		playersRightPanel.add(new JLabel(new ImageIcon("green.png")));
+		playersRightPanel.add(new JLabel(new ImageIcon("assets/green.png")));
 
 		playersDeckIcon = new JLabel(playersDeck.peek().getBack());
 		playersDeckIcon.setBorder(BorderFactory.createLineBorder(boardColor, 10));
@@ -487,7 +487,7 @@ public class Speed {
 		}
 
 		if (playersDeck.getSize() == 0) {
-			playersDeckIcon.setIcon(new ImageIcon("green.png"));
+			playersDeckIcon.setIcon(new ImageIcon("assets/green.png"));
 		}
 
 		flip.setEnabled(noMovesPossible());
@@ -528,27 +528,27 @@ public class Speed {
 		if (playersHand.get(0) != null) {
 			playersHandButton1.setIcon(playersHand.get(0).getSideStub());
 		} else {
-			playersHandButton1.setIcon(new ImageIcon("green.png"));
+			playersHandButton1.setIcon(new ImageIcon("assets/green.png"));
 		}
 		if (playersHand.get(1) != null) {
 			playersHandButton2.setIcon(playersHand.get(1).getSideStub());
 		} else {
-			playersHandButton2.setIcon(new ImageIcon("green.png"));
+			playersHandButton2.setIcon(new ImageIcon("assets/green.png"));
 		}
 		if (playersHand.get(2) != null) {
 			playersHandButton3.setIcon(playersHand.get(2).getSideStub());
 		} else {
-			playersHandButton3.setIcon(new ImageIcon("green.png"));
+			playersHandButton3.setIcon(new ImageIcon("assets/green.png"));
 		}
 		if (playersHand.get(3) != null) {
 			playersHandButton4.setIcon(playersHand.get(3).getSideStub());
 		} else {
-			playersHandButton4.setIcon(new ImageIcon("green.png"));
+			playersHandButton4.setIcon(new ImageIcon("assets/green.png"));
 		}
 		if (playersHand.get(4) != null) {
 			playersHandButton5.setIcon(playersHand.get(4).getFace());
 		} else {
-			playersHandButton5.setIcon(new ImageIcon("green.png"));
+			playersHandButton5.setIcon(new ImageIcon("assets/green.png"));
 		}
 
 		for (Card card : playersHand) {
@@ -594,27 +594,27 @@ public class Speed {
 		if (opponentsHand.get(0) != null) {
 			opponentsHandLabel1.setIcon(opponentsHand.get(0).getBack());
 		} else {
-			opponentsHandLabel1.setIcon(new ImageIcon("green.png"));
+			opponentsHandLabel1.setIcon(new ImageIcon("assets/green.png"));
 		}
 		if (opponentsHand.get(1) != null) {
 			opponentsHandLabel2.setIcon(opponentsHand.get(1).getBackSideStub());
 		} else {
-			opponentsHandLabel2.setIcon(new ImageIcon("green.png"));
+			opponentsHandLabel2.setIcon(new ImageIcon("assets/green.png"));
 		}
 		if (opponentsHand.get(2) != null) {
 			opponentsHandLabel3.setIcon(opponentsHand.get(2).getBackSideStub());
 		} else {
-			opponentsHandLabel3.setIcon(new ImageIcon("green.png"));
+			opponentsHandLabel3.setIcon(new ImageIcon("assets/green.png"));
 		}
 		if (opponentsHand.get(3) != null) {
 			opponentsHandLabel4.setIcon(opponentsHand.get(3).getBackSideStub());
 		} else {
-			opponentsHandLabel4.setIcon(new ImageIcon("green.png"));
+			opponentsHandLabel4.setIcon(new ImageIcon("assets/green.png"));
 		}
 		if (opponentsHand.get(4) != null) {
 			opponentsHandLabel5.setIcon(opponentsHand.get(4).getBackSideStub());
 		} else {
-			opponentsHandLabel5.setIcon(new ImageIcon("green.png"));
+			opponentsHandLabel5.setIcon(new ImageIcon("assets/green.png"));
 		}
 
 		for (Card card : opponentsHand) {
@@ -677,7 +677,7 @@ public class Speed {
 		}
 
 		if (opponentsDeck.getSize() == 0) {
-			opponentsDeckIcon.setIcon(new ImageIcon("green.png"));
+			opponentsDeckIcon.setIcon(new ImageIcon("assets/green.png"));
 		}
 
 		flip.setEnabled(noMovesPossible());
@@ -696,13 +696,13 @@ public class Speed {
 		rightIcon.setIcon(rightDeck.peek().getFace());
 
 		if (leftExtraDeck.getSize() == 0) {
-			leftExtraIcon.setIcon(new ImageIcon("green.png"));
+			leftExtraIcon.setIcon(new ImageIcon("assets/green.png"));
 		} else {
 			leftExtraIcon.setIcon(leftExtraDeck.peek().getBack());
 		}
 
 		if (rightExtraDeck.getSize() == 0) {
-			rightExtraIcon.setIcon(new ImageIcon("green.png"));
+			rightExtraIcon.setIcon(new ImageIcon("assets/green.png"));
 		} else {
 			rightExtraIcon.setIcon(rightExtraDeck.peek().getBack());
 		}

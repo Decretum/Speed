@@ -5,8 +5,8 @@ public class Card {
 	private static final String FACE_IMAGE_ASSET_SUFFIX = ".png";
 	private static final String TOP_STUB_IMAGE_ASSET_SUFFIX = "t.png";
 	private static final String SIDE_STUB_IMAGE_ASSET_SUFFIX = "s.png";
-	private static final String BACK_IMAGE_ASSET = "back.png";
-	private static final String BACK_SIDE_STUB_IMAGE_ASSET = "backsidestub.png";
+	private static final String BACK_IMAGE_ASSET = "assets/back.png";
+	private static final String BACK_SIDE_STUB_IMAGE_ASSET = "assets/backsidestub.png";
 
 	private Suit suit;
 	private CardNumber cardNumber;
@@ -69,10 +69,10 @@ public class Card {
 
 		String cardValue = String.valueOf(computeCardValue());
 
-		face = new ImageIcon(cardValue + FACE_IMAGE_ASSET_SUFFIX);
+		face = new ImageIcon("assets/" + cardValue + FACE_IMAGE_ASSET_SUFFIX);
 		back = new ImageIcon(BACK_IMAGE_ASSET);
-		topStub = new ImageIcon(cardValue + TOP_STUB_IMAGE_ASSET_SUFFIX);
-		sideStub = new ImageIcon(cardValue + SIDE_STUB_IMAGE_ASSET_SUFFIX);
+		topStub = new ImageIcon("assets/" + cardValue + TOP_STUB_IMAGE_ASSET_SUFFIX);
+		sideStub = new ImageIcon("assets/" + cardValue + SIDE_STUB_IMAGE_ASSET_SUFFIX);
 		backSideStub = new ImageIcon(BACK_SIDE_STUB_IMAGE_ASSET);
 	}
 
