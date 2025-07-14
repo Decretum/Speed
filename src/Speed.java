@@ -490,7 +490,13 @@ public class Speed {
 			playersDeckIcon.setIcon(new ImageIcon("assets/green.png"));
 		}
 
-		flip.setEnabled(noMovesPossible());
+		if (noMovesPossible()) {
+			flip.setEnabled(true);
+			flip.setBackground(Color.GREEN);
+		} else {
+			flip.setEnabled(false);
+			flip.setBackground(null);
+		}
 		endGameIfWinnerExists();
 	}
 
@@ -680,7 +686,13 @@ public class Speed {
 			opponentsDeckIcon.setIcon(new ImageIcon("assets/green.png"));
 		}
 
-		flip.setEnabled(noMovesPossible());
+		if (noMovesPossible()) {
+			flip.setEnabled(true);
+			flip.setBackground(Color.GREEN);
+		} else {
+			flip.setEnabled(false);
+			flip.setBackground(null);
+		}
 
 		endGameIfWinnerExists();
 	}
@@ -707,7 +719,13 @@ public class Speed {
 			rightExtraIcon.setIcon(rightExtraDeck.peek().getBack());
 		}
 
-		flip.setEnabled(noMovesPossible());
+		if (noMovesPossible()) {
+			flip.setEnabled(true);
+			flip.setBackground(Color.GREEN);
+		} else {
+			flip.setEnabled(false);
+			flip.setBackground(null);
+		}
 	}
 
 	private void endGameOnDraw() {
